@@ -3,7 +3,10 @@ import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 interface IFormInputs {
-  brand: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
 }
 
 const CustomerInfo = () => {
@@ -12,22 +15,21 @@ const CustomerInfo = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<IFormInputs>({
-    defaultValues: {
-      brand: "",
-    },
-    mode: "onChange",
-  });
+  } = useForm<IFormInputs>();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
+  const email = watch("email");
+  const phone = watch("phone");
+
+  console.log(firstName, lastName, email, phone);
+
   return (
     <div className="">
       <h4 className="text-[18px] font-medium">Customer Information</h4>
       <hr className="w-100 border-primary" />
       <div className="border border-secondary my-6 p-3 rounded-[5px]">
-        <form onSubmit={handleSubmit(onSubmit)} className="">
+        
           <div className="form-control w-full flex flex-col rounded-[5px] ">
             <label className="">
               <p className="text-[14px] text-light">
@@ -39,10 +41,10 @@ const CustomerInfo = () => {
                 type="text"
                 placeholder="Brand Name"
                 className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
-                {...register("brand", { required: true })}
+                {...register("firstName", { required: true })}
               />
-              {errors.brand && (
-                <p className="text-[red]">Product Brand is required.</p>
+              {errors.firstName && (
+                <p className="text-[red]">First Name is required.</p>
               )}
             </label>
           </div>
@@ -58,10 +60,10 @@ const CustomerInfo = () => {
                 type="text"
                 placeholder="Brand Name"
                 className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
-                {...register("brand", { required: true })}
+                {...register("lastName", { required: true })}
               />
-              {errors.brand && (
-                <p className="text-[red]">Product Brand is required.</p>
+              {errors.lastName && (
+                <p className="text-[red]">Last Name is required.</p>
               )}
             </label>
           </div>
@@ -77,10 +79,10 @@ const CustomerInfo = () => {
                 type="text"
                 placeholder="Brand Name"
                 className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
-                {...register("brand", { required: true })}
+                {...register("email", { required: true })}
               />
-              {errors.brand && (
-                <p className="text-[red]">Product Brand is required.</p>
+              {errors.email && (
+                <p className="text-[red]">Email address is required.</p>
               )}
             </label>
           </div>
@@ -96,14 +98,14 @@ const CustomerInfo = () => {
                 type="text"
                 placeholder="Brand Name"
                 className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
-                {...register("brand", { required: true })}
+                {...register("phone", { required: true })}
               />
-              {errors.brand && (
-                <p className="text-[red]">Product Brand is required.</p>
+              {errors.phone && (
+                <p className="text-[red]">Phone Number is required.</p>
               )}
             </label>
           </div>
-        </form>
+      
       </div>
     </div>
   );

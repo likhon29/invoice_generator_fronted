@@ -1,14 +1,11 @@
 "use client";
 import React, { useState } from "react";
 
-import CustomerInfo from "./CustomerInfo/CustomerInfo";
-import ChargeSummary from "./ChargeSummary/ChargeSummary";
-import VehicleInfo from "./VehicleInfo/VehicleInfo";
-import AdditionalCharges from "./AdditionalCharges/AdditionalCharges";
-import ReservationDetails from "./ReservationDetails/ReservationDetails";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Invoice from "../Invoice/Invoice";
+import ReservationForm from "./ReservationForm/ReservationForm";
+import ChargeSummary from "./ChargeSummary/ChargeSummary";
 
 const ReservationPage = () => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -49,13 +46,11 @@ const ReservationPage = () => {
           {isDownloading ? "Downloading..." : " Print/Download"}
         </button>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[3.5fr,3.5fr,5fr] gap-5">
-        <ReservationDetails />
-        <CustomerInfo />
+      <div className="grid lg:grid-cols-[7fr,5fr] gap-5 items-start">
+        <ReservationForm />
         <ChargeSummary />
-        <VehicleInfo />
-        <AdditionalCharges />
       </div>
+
       <div ref={contentRef}>
         <Invoice />
       </div>

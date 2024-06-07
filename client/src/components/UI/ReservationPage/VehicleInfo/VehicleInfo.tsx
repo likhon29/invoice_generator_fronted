@@ -2,20 +2,69 @@
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 
-import { HiOutlineCalendar, HiOutlineChevronDown } from "react-icons/hi";
-import { FaDollarSign } from "react-icons/fa";
-import { PiCurrencyDollarLight } from "react-icons/pi";
+import { useEffect, useState } from "react";
+import fetchData from "@/utils/fetchData";
+import { HiOutlineChevronDown } from "react-icons/hi";
+import { ICar } from "@/types/car";
+import Image from "next/image";
 const VehicleInfo = () => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
     control,
+    watch,
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+  const [cars, setCars] = useState([]);
+  const [filterCar, setFilterCar] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const fetchedCars = await fetchData(
+          `https://exam-server-7c41747804bf.herokuapp.com/carsList`
+        );
+        if (fetchedCars?.status) {
+          setCars(fetchedCars?.data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+
+  //  unique types of cars
+
+  console.log(cars);
+
+  const uniqueCarsType = cars
+    .map((car: ICar) => car.type)
+    .filter(
+      (value: any, index: any, self: any) => self.indexOf(value) === index
+    );
+
+  // filter product based on user selected  type
+
+  const selectedCarType = watch("vehicleType");
+
+  useEffect(() => {
+    const filteredCars = cars.filter(
+      (car: ICar) => car.type === selectedCarType
+    );
+    setFilterCar(filteredCars);
+  }, [cars, selectedCarType]);
+
   return (
     <div className="">
       <h4 className="text-[18px] font-medium">Vehicle Information</h4>
@@ -39,9 +88,12 @@ const VehicleInfo = () => {
                     errors.vehicleType ? "border-red-500" : "border-gray-300"
                   } p-2 rounded w-full appearance-none`}
                 >
-                  <option value=""></option>
-                  <option value="car">Car</option>
-                  <option value="bike">Bike</option>
+                  <option value="">Select Vehicle Type</option>
+                  {uniqueCarsType?.map((carType: any, index: any) => (
+                    <option key={index} value={carType}>
+                      {carType}
+                    </option>
+                  ))}
                 </select>
               )}
             />
@@ -59,13 +111,43 @@ const VehicleInfo = () => {
             Vehicle<span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <input
-              id="vehicle"
-              type="text"
-              className={`border ${
-                errors.vehicle ? "border-red-500" : "border-gray-300"
-              } p-2 rounded w-full`}
-              {...register("vehicle", { required: true })}
+            <Controller
+              control={control}
+              name="vehicle"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  id="vehicle"
+                  className={`border ${
+                    errors.vehicle ? "border-red-500" : "border-gray-300"
+                  } p-2 rounded w-full appearance-none`}
+                >
+                  {filterCar?.length ? (
+                    filterCar?.map((car: ICar, index: any) => (
+                      <option
+                        className="flex items-center justify-between"
+                        key={index}
+                        value={car.id}
+                      >
+                        <Image
+                          src={
+                            car?.imageURL || "https://via.placeholder.com/150"
+                          }
+                          width={50}
+                          height={50}
+                          alt={car?.model}
+                        />
+                        <p>
+                          {car.make} {car.model} {car.year}
+                        </p>
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">Select Vehicle</option>
+                  )}
+                </select>
+              )}
             />
             <HiOutlineChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
           </div>

@@ -6,10 +6,20 @@ import { PiCurrencyDollarLight } from "react-icons/pi";
 const AdditionalCharges = () => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    control,
+    watch,
   } = useForm();
+
+  const additionalCharges = {
+    option1: false,
+    option2: false,
+    option3: false,
+  };
+
+  const selectedCharges = watch("additionalCharges");
+
+  console.log(selectedCharges);
+
   return (
     <div className="">
       <h4 className="text-[18px] font-medium">Additional Charges</h4>
@@ -21,8 +31,7 @@ const AdditionalCharges = () => {
               type="checkbox"
               id="checkbox"
               className="mr-2"
-              defaultValue={"9"}
-              {...register("additionalCharge")}
+              {...register("additionalCharges.collisonDamageWaiver")}
             />
             <label htmlFor="checkbox" className="text-gray-700">
               Collision Damage Waiver
@@ -39,8 +48,7 @@ const AdditionalCharges = () => {
               type="checkbox"
               id="checkbox"
               className="mr-2"
-              defaultValue={"15"}
-              {...register("additionalCharge")}
+              {...register("additionalCharges.liableInsurance")}
             />
             <label htmlFor="checkbox" className="text-gray-700">
               Liability Insurance
@@ -57,17 +65,13 @@ const AdditionalCharges = () => {
               type="checkbox"
               id="checkbox"
               className="mr-2"
-              defaultValue={"11.5"}
-              {...register("Rental Tax")}
+              {...register("additionalCharges.rentalTax")}
             />
             <label htmlFor="checkbox" className="text-gray-700">
-              Liability Insurance
+              Rental Tax
             </label>
           </div>
-          <p className="mb-4 flex justify-center items-center">
-            <PiCurrencyDollarLight className="font-mono"></PiCurrencyDollarLight>{" "}
-            11.5%
-          </p>
+          <p className="mb-4 flex justify-center items-center">11.5%</p>
         </div>
       </div>
     </div>
