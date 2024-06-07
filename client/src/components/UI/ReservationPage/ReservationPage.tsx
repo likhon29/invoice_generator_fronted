@@ -10,6 +10,41 @@ import { useSelector } from "react-redux";
 import { RootState } from "@reduxjs/toolkit/query";
 
 const ReservationPage = () => {
+  const [reservation, setReservation] = React.useState({
+    customerInfo: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    },
+    vehicleInfo: {
+      id: "",
+      make: "",
+      model: "",
+      year: 0,
+      type: "",
+      seats: 0,
+      bags: 0,
+      imageURL: "",
+      rates: {
+        daily: 0,
+        weekly: 0,
+        hourly: 0,
+      },
+      features: [""],
+    },
+    additionalCharges: {
+      collisonDamageWaiver: false,
+      liableInsurance: false,
+    },
+    reservationDetails: {
+      pickUpDate: "",
+      pickUpTime: "",
+      returnDate: "",
+      returnTime: "",
+    },
+  });
+
   const [isDownloading, setIsDownloading] = useState(false);
   const contentRef = React.useRef(null);
   const handleDownloadPdf = async () => {
@@ -53,8 +88,8 @@ const ReservationPage = () => {
         </button>
       </div>
       <div className="grid lg:grid-cols-[7fr,5fr] gap-5 items-start">
-        <ReservationForm />
-        <ChargeSummary />
+        <ReservationForm setReservation={setReservation} />
+        <ChargeSummary reservation={reservation} />
       </div>
 
       <div ref={contentRef}>

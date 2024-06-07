@@ -1,7 +1,44 @@
 import React from "react";
 import { HiOutlineCalendar, HiOutlineChevronDown } from "react-icons/hi";
 import { FaDollarSign } from "react-icons/fa";
-const ChargeSummary = () => {
+const ChargeSummary = ({
+  reservation,
+}: {
+  reservation: {
+    customerInfo: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    };
+    vehicleInfo: {
+      id: string;
+      make: string;
+      model: string;
+      year: number;
+      type: string;
+      seats: number;
+      bags: number;
+      imageURL: string;
+      rates: {
+        daily: number;
+        weekly: number;
+        hourly: number;
+      };
+      features: string[];
+    };
+    additionalCharges: {
+      collisonDamageWaiver: boolean;
+      liableInsurance: boolean;
+    };
+    reservationDetails: {
+      pickUpDate: string;
+      pickUpTime: string;
+      returnDate: string;
+      returnTime: string;
+    };
+  };
+}) => {
   return (
     <div className="">
       <h4 className="text-[18px] font-medium">Charge Summary</h4>

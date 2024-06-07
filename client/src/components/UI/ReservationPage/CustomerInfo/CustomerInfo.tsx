@@ -12,7 +12,11 @@ interface IFormInputs {
   phone: string;
 }
 
-const CustomerInfo = () => {
+const CustomerInfo = ({
+  setCustomerInfo,
+}: {
+  setCustomerInfo: React.Dispatch<React.SetStateAction<any>>;
+}) => {
   const {
     register,
     handleSubmit,
@@ -28,22 +32,8 @@ const CustomerInfo = () => {
   const phone = watch("phone");
 
   useEffect(() => {
-    dispatch(updateField({ name: "firstName", value: firstName }));
-  }, [firstName, dispatch]);
-
-  useEffect(() => {
-    dispatch(updateField({ name: "lastName", value: lastName }));
-  }, [lastName, dispatch]);
-
-  useEffect(() => {
-    dispatch(updateField({ name: "email", value: email }));
-  }, [email, dispatch]);
-
-  useEffect(() => {
-    dispatch(updateField({ name: "phone", value: phone }));
-  }, [phone, dispatch]);
-
-  const { customerInfo } = useSelector((state: any) => state?.customer);
+    setCustomerInfo({ firstName, lastName, email, phone });
+  }, [firstName, lastName, email, phone, setCustomerInfo]);
 
   return (
     <div className="">

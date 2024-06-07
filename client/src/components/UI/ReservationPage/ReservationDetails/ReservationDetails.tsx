@@ -20,7 +20,11 @@ interface IFormInputs {
   duration: string;
 }
 
-const ReservationDetails = () => {
+const ReservationDetails = ({
+  setReservationDetails,
+}: {
+  setReservationDetails: React.Dispatch<React.SetStateAction<any>>;
+}) => {
   const {
     register,
     formState: { errors },
@@ -36,7 +40,6 @@ const ReservationDetails = () => {
   const returnDate = watch("returnDate");
   const duration = watch("duration");
   const discount = watch("discount");
-
 
   const handleMinDate = (selectedDate: Date): Date => {
     if (pickupDate && selectedDate < pickupDate) {
@@ -60,13 +63,23 @@ const ReservationDetails = () => {
     const duration = calculateDuration();
     if (duration) {
       setDurationValue(`${duration.weeks} week ${duration.days} days`);
+      setReservationDetails({
+        reservationId,
+        pickupDate,
+        returnDate,
+        duration,
+        discount,
+      });
       dispatch(updateDuration(duration));
     }
-  }, [pickupDate, returnDate, dispatch]);
-
-  
-
-  
+  }, [
+    pickupDate,
+    returnDate,
+    dispatch,
+    setReservationDetails,
+    reservationId,
+    discount,
+  ]);
 
   return (
     <div className="">

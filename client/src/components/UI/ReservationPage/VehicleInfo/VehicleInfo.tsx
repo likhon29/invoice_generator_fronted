@@ -2,12 +2,16 @@
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import fetchData from "@/utils/fetchData";
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { ICar } from "@/types/car";
 import Image from "next/image";
-const VehicleInfo = () => {
+const VehicleInfo = ({
+  setVehicleInfo,
+}: {
+  setVehicleInfo: React.Dispatch<React.SetStateAction<any>>;
+}) => {
   const {
     register,
     formState: { errors },
@@ -46,8 +50,6 @@ const VehicleInfo = () => {
 
   //  unique types of cars
 
-  console.log(cars);
-
   const uniqueCarsType = cars
     .map((car: ICar) => car.type)
     .filter(
@@ -64,6 +66,14 @@ const VehicleInfo = () => {
     );
     setFilterCar(filteredCars);
   }, [cars, selectedCarType]);
+
+  useEffect(() => {
+    const selectedCar = watch("vehicle");
+    const car = cars.find((car: ICar) => car.id === selectedCar);
+    setVehicleInfo(
+      (prev: any) => ({ ...prev, vehicleInfo: car } as { vehicleInfo: ICar })
+    );
+  }, [cars, setVehicleInfo, watch]);
 
   return (
     <div className="">
