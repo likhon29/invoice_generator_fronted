@@ -4,7 +4,7 @@ import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Providers from "@/lib/Providers/Providers";
 import { Toaster } from "sonner";
-
+import "react-datepicker/dist/react-datepicker.css";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "300",
