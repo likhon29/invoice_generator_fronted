@@ -1,11 +1,8 @@
+import ReservationPage from "@/components/UI/ReservationPage/ReservationPage";
 import React from "react";
 
 const HomePage = () => {
-  return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
-  );
+  return <ReservationPage />;
 };
 
 export default HomePage;
