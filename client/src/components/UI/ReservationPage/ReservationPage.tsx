@@ -6,6 +6,8 @@ import jsPDF from "jspdf";
 import Invoice from "../Invoice/Invoice";
 import ReservationForm from "./ReservationForm/ReservationForm";
 import ChargeSummary from "./ChargeSummary/ChargeSummary";
+import { useSelector } from "react-redux";
+import { RootState } from "@reduxjs/toolkit/query";
 
 const ReservationPage = () => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -34,6 +36,10 @@ const ReservationPage = () => {
       setIsDownloading(false);
     }
   };
+
+  const { customerInfo } = useSelector((state: any) => state?.customer);
+  console.log(customerInfo);
+
   return (
     <div className=" min-h-min">
       <div className="flex justify-between items-center lg:my-3">

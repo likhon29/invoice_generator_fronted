@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "react": ["./node_modules/@types/react"]
     }
   },
   "include": [
@@ -27,8 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/ui/others/Ratings.js",
-    "src/app/(public)/shopping/_components/GiveRatings.jsx"
+    "src/components/UI/ShoppingPage/Ratings/Ratings.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,8 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Controller, set, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { HiOutlineCalendar } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateDiscount,
+  updateDuration,
+  updatePickupDate,
+  updateReservationId,
+  updateReturnDate,
+} from "@/redux/reducers/reservationDetailsReducer";
+
 interface IFormInputs {
   reservationId: string;
   pickupDate: Date;
@@ -19,6 +28,7 @@ const ReservationDetails = () => {
     watch,
   } = useForm<IFormInputs>();
 
+  const dispatch = useDispatch();
   const [durationValue, setDurationValue] = useState<string>("");
 
   const reservationId = watch("reservationId");
@@ -26,6 +36,7 @@ const ReservationDetails = () => {
   const returnDate = watch("returnDate");
   const duration = watch("duration");
   const discount = watch("discount");
+
 
   const handleMinDate = (selectedDate: Date): Date => {
     if (pickupDate && selectedDate < pickupDate) {
@@ -39,41 +50,30 @@ const ReservationDetails = () => {
       if (pickupDate && returnDate) {
         const diffTime = Math.abs(returnDate.getTime() - pickupDate.getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
-      }
-      return 0;
-    };
-    const duration = calculateDuration();
-    if (duration) {
-      setDurationValue(duration.toString());
-    }
-  }, [pickupDate, returnDate]);
-
-  // calculation from pickup date and return date as 1 week 3 days
-
-  useEffect(() => {
-    const calculateDuration = () => {
-      if (pickupDate && returnDate) {
-        const diffTime = Math.abs(returnDate.getTime() - pickupDate.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const weeks = Math.floor(diffDays / 7);
         const days = diffDays % 7;
-        return `${weeks} week ${days} days`;
+        return { weeks, days, hours: 0 };
       }
-      return "";
+      return { weeks: 0, days: 0, hours: 0 };
     };
+
     const duration = calculateDuration();
     if (duration) {
-      setDurationValue(duration);
+      setDurationValue(`${duration.weeks} week ${duration.days} days`);
+      dispatch(updateDuration(duration));
     }
-  }, [pickupDate, returnDate]);
+  }, [pickupDate, returnDate, dispatch]);
+
+  
+
+  
 
   return (
     <div className="">
       <h4 className="text-[18px] font-medium">Reservation Details</h4>
       <hr className="w-full border-primary" />
       <div className="border border-secondary my-6 p-3 rounded-[5px]">
-        <div className="form-control w-full flex flex-col rounded-[5px] ">
+        <div className="form-control w-full flex flex-col rounded-[5px]">
           <label className="">
             <p className="text-[14px] text-light">
               Reservation ID <span className="text-red-500 text-xl">*</span>
@@ -84,10 +84,12 @@ const ReservationDetails = () => {
               id="reservationId"
               type="text"
               placeholder=""
-              className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
+              className="input border border-[#DFDFFF] p-2 rounded-[5px] input-bordered w-full my-2"
               {...register("reservationId", { required: true })}
             />
-            {errors.reservationId && <p className="text-[red]">Pickup Date</p>}
+            {errors.reservationId && (
+              <p className="text-[red]">Reservation ID is required</p>
+            )}
           </label>
         </div>
 
@@ -95,7 +97,7 @@ const ReservationDetails = () => {
           <label htmlFor="pickupDate" className="mb-2 text-gray-700">
             Pickup Date<span className="text-red-500">*</span>
           </label>
-          <div className="relative border  w-full">
+          <div className="relative border w-full">
             <Controller
               control={control}
               name="pickupDate"
@@ -126,8 +128,6 @@ const ReservationDetails = () => {
           <label htmlFor="returnDate" className="mb-2 text-gray-700">
             Return Date<span className="text-red-500">*</span>
           </label>
-          {/* return date cannot select before pickupdate */}
-
           <div className="relative w-full mt-2 border">
             <Controller
               control={control}
@@ -162,15 +162,14 @@ const ReservationDetails = () => {
           <input
             id="duration"
             type="text"
-            // placeholder="1 week 1 day"
             readOnly
-            value={durationValue &&  `${durationValue} `}
+            value={durationValue && `${durationValue} `}
             className="border border-gray-300 p-2 rounded"
             {...register("duration")}
           />
         </div>
 
-        <div className="form-control w-full flex flex-col rounded-[5px] ">
+        <div className="form-control w-full flex flex-col rounded-[5px]">
           <label className="">
             <p className="text-[14px] text-light">
               Discount <span className="text-red-500 text-xl">*</span>
@@ -179,11 +178,11 @@ const ReservationDetails = () => {
           <label className="w-full">
             <input
               type="text"
-              className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
+              className="input border border-[#DFDFFF] p-2 rounded-[5px] input-bordered w-full my-2"
               {...register("discount", { required: true })}
             />
             {errors.discount && (
-              <p className="text-[red]">Product Brand is required.</p>
+              <p className="text-[red]">Discount is required.</p>
             )}
           </label>
         </div>
