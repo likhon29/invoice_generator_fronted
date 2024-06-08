@@ -108,8 +108,13 @@ const ReservationPage = () => {
         />
       </div>
 
-      <div ref={contentRef}>
-        <Invoice />
+      <div style={{ position: "absolute", top: 0, overflow: "hidden" }}>
+        <div
+          className="absolute left-[1000px] overflow-x-hidden"
+          ref={contentRef}
+        >
+          <Invoice />
+        </div>
       </div>
     </div>
   );
