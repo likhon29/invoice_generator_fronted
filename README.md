@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ## Overview
 This project is a web application built using the MERN (MongoDB, Express.js, React, Node.js) stack for a car rental service. The application allows users to input customer details, rental duration, discounts, and additional charges to generate and print an invoice. It integrates with an external API to fetch car details and rental rates.
 
@@ -134,4 +134,4 @@ For cases where the hourly rental cost exceeds the daily rate for a partial-day 
 
 ## Conclusion
 The application Car Rental Service Invoice Generator offers a complete solution for fee calculations, rental car management, and printable invoice generation. It makes use of the MERN stack's strength to provide a flawless user experience that includes precise billing and simple invoice administration.
->>>>>>> ea114cb48bb862b94c94c4595a27d1025d28f59b
+
