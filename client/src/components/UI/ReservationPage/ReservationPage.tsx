@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -10,7 +10,7 @@ import CustomerInfo from "./CustomerInfo/CustomerInfo";
 import VehicleInfo from "./VehicleInfo/VehicleInfo";
 import AdditionalCharges from "./AdditionalCharges/AdditionalCharges";
 import ChargeSummary from "./ChargeSummary/ChargeSummary";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 const ReservationPage = () => {
   const {
@@ -77,6 +77,38 @@ const ReservationPage = () => {
     }
   };
 
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    const getTotal = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/v1/invoice/calculate",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              reservationDetails,
+              customerInfo,
+              vehicleInfo,
+              additionalCharges,
+            }),
+          }
+        );
+        const data = await response.json();
+        setTotal(data?.data?.total);
+      } catch (error) {
+        console.error("Error posting data:", error);
+      }
+    };
+    getTotal();
+
+    setIsDownloading(false);
+  }, [reservationDetails, customerInfo, vehicleInfo, additionalCharges]);
+
+  console.log(total, "total");
+
   return (
     <div className=" min-h-min">
       <div className="flex justify-between items-center lg:my-3">
@@ -102,6 +134,7 @@ const ReservationPage = () => {
           </div>
         </form>
         <ChargeSummary
+          total={total}
           additionalCharges={additionalCharges}
           vehicleInfo={vehicleInfo}
           reservationDetails={reservationDetails}
@@ -113,7 +146,7 @@ const ReservationPage = () => {
           className="absolute left-[1000px] overflow-x-hidden"
           ref={contentRef}
         >
-          <Invoice />
+          <Invoice total={total} />
         </div>
       </div>
     </div>

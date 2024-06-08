@@ -5,11 +5,18 @@ const ChargeSummary = ({
   additionalCharges,
   reservationDetails,
   vehicleInfo,
+  total,
 }: {
   additionalCharges: any;
   reservationDetails: any;
   vehicleInfo: any;
+  total: any;
 }) => {
+  const [finalTotal, setFinalTotal] = useState(0);
+
+  useEffect(() => {
+    setFinalTotal(total);
+  }, [total]);
   // filter by true value of additional charges
   const totalCalculation = () => {
     // Calculate total hourly cost
@@ -99,8 +106,7 @@ const ChargeSummary = ({
                   {reservationDetails?.duration?.hours}
                 </td>
                 <td className="py-2 px-4 border">
-                  {vehicleInfo?.rates?.daily &&
-                    `$ + {vehicleInfo?.rates?.daily}`}
+                  ${vehicleInfo?.rates?.daily}
                 </td>
                 <td className="py-2 px-4 border">
                   $
@@ -116,10 +122,20 @@ const ChargeSummary = ({
                   return (
                     <tr key={index}>
                       <td className="py-2 px-4 border" colSpan={3}>
-                        {key}
+                        {
+                          {
+                            collisionDamageWaiver: "Collision Damage Waiver",
+                            liableInsurance: "Liable Insurance",
+                            rentalTax: "Rental Tax",
+                          }[key]
+                        }
                       </td>
 
-                      <td className="py-2 px-4 border">$9.00</td>
+                      <td className="py-2 px-4 border">
+                        ${key === "collisionDamageWaiver" && "9.00"}$
+                        {key === "liableInsurance" && "15.00"}
+                        {key === "rentalTax" && "11"}%
+                      </td>
                       <td className="py-2 px-4 border">$9.00</td>
                     </tr>
                   );
@@ -146,12 +162,14 @@ const ChargeSummary = ({
                 <td className="py-2 pt-5 px-4 border" colSpan={4}>
                   Total
                 </td>
-                <td className="py-2 px-4 pt-5 border">${totalCalculation()}</td>
+                <td className="py-2 px-4 pt-5 border">
+                  ${finalTotal ? finalTotal : totalCalculation()}
+                </td>
               </tr>
             ) : (
-              <tr className="text-light text-center">
-                <td className="py-10  px-4 border" colSpan={6}>
-                  No Data Added
+              <tr className="text-light text-center my-10">
+                <td className="py-2 pt-5 px-4 border" colSpan={6}>
+                  No Charges
                 </td>
               </tr>
             )}

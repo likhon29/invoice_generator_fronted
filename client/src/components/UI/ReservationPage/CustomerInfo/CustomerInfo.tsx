@@ -45,7 +45,7 @@ const CustomerInfo = ({ setCustomerInfo }: { setCustomerInfo: any }) => {
           <label className="w-full">
             <input
               type="text"
-              placeholder="Brand Name"
+              placeholder=""
               className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
               {...register("firstName", { required: true })}
             />
@@ -64,7 +64,7 @@ const CustomerInfo = ({ setCustomerInfo }: { setCustomerInfo: any }) => {
           <label className="w-full">
             <input
               type="text"
-              placeholder="Brand Name"
+              placeholder=""
               className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
               {...register("lastName", { required: true })}
             />
@@ -83,7 +83,7 @@ const CustomerInfo = ({ setCustomerInfo }: { setCustomerInfo: any }) => {
           <label className="w-full">
             <input
               type="text"
-              placeholder="Brand Name"
+              placeholder=""
               className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
               {...register("email", { required: true })}
             />
@@ -102,7 +102,7 @@ const CustomerInfo = ({ setCustomerInfo }: { setCustomerInfo: any }) => {
           <label className="w-full">
             <input
               type="text"
-              placeholder="Brand Name"
+              placeholder=""
               className="input border border-[#DFDFFF] p-2  rounded-[5px] input-bordered w-full my-2 "
               {...register("phone", { required: true })}
             />

@@ -64,6 +64,10 @@ const VehicleInfo = ({ setVehicleInfo }: { setVehicleInfo: any }) => {
   }, [cars, selectedCarType]);
 
   const selectedCar = cars.find((car: ICar) => car.id === watch("vehicle"));
+  // const handleOnChange = (e: any) => {
+
+  //   setVehicleInfo(selectedCar);
+  // };
 
   useEffect(() => {
     setVehicleInfo(selectedCar);
@@ -127,7 +131,6 @@ const VehicleInfo = ({ setVehicleInfo }: { setVehicleInfo: any }) => {
                     errors.vehicle ? "border-red-500" : "border-gray-300"
                   } p-2 rounded w-full appearance-none`}
                 >
-                  
                   {filterCar?.length ? (
                     filterCar?.map((car: ICar, index: any) => (
                       <option
