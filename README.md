@@ -2,6 +2,33 @@
 ## Overview
 This project is a web application built using the MERN (MongoDB, Express.js, React, Node.js) stack for a car rental service. The application allows users to input customer details, rental duration, discounts, and additional charges to generate and print an invoice. It integrates with an external API to fetch car details and rental rates.
 
+## Installation
+1. Clone the repository:<br>
+&nbsp; &nbsp; &nbsp; git clone https://github.com/likhon29/invoice_generator_nyntax
+
+2. Frontend: <br>
+&nbsp; &nbsp; &nbsp; cd client <br>
+&nbsp; &nbsp; &nbsp; npm i <br>
+&nbsp; &nbsp; &nbsp; npm run dev
+
+3. Backend: <br>
+&nbsp; &nbsp; &nbsp; cd server <br>
+&nbsp; &nbsp; &nbsp; npm i <br>
+&nbsp; &nbsp; &nbsp; npm run start:dev
+
+4. Build: <br>
+&nbsp; &nbsp; &nbsp; npm run build
+
+## Live URL
+### Server : https://server-kr0ga0s1p-likhon29s-projects.vercel.app/
+### Client: https://invoice-generator-nyntax.vercel.app/
+
+## Usage
+1. Open your browser and navigate to http://localhost:3000.
+2. Input customer details, select rental duration, apply discounts, and add any additional charges.
+3. Select a car from the list of available cars fetched from the API.
+4. The total rental charges will be calculated automatically.
+5. Generate and print the invoice using the provided functionality.
 
 ## Features
 ### 1. Api Integration:
@@ -97,29 +124,6 @@ This project is a web application built using the MERN (MongoDB, Express.js, Rea
 - Frontend: Next js, Tailwind CSS, MUI
 - Backend: Node js, Express js
 
-## Installation
-1. Clone the repository:<br>
-&nbsp; &nbsp; &nbsp; git clone https://github.com/likhon29/invoice_generator_nyntax
-
-2. Frontend: <br>
-&nbsp; &nbsp; &nbsp; cd client <br>
-&nbsp; &nbsp; &nbsp; npm i <br>
-&nbsp; &nbsp; &nbsp; npm run dev
-
-3. Backend: <br>
-&nbsp; &nbsp; &nbsp; cd server <br>
-&nbsp; &nbsp; &nbsp; npm i <br>
-&nbsp; &nbsp; &nbsp; npm run start:dev
-
-4. Build: <br>
-&nbsp; &nbsp; &nbsp; npm run build
-
-## Usage
-1. Open your browser and navigate to http://localhost:3000.
-2. Input customer details, select rental duration, apply discounts, and add any additional charges.
-3. Select a car from the list of available cars fetched from the API.
-4. The total rental charges will be calculated automatically.
-5. Generate and print the invoice using the provided functionality.
 
 ## Bonus Feature Explanation
 For cases where the hourly rental cost exceeds the daily rate for a partial-day rental, the application will apply the daily rate instead of the hourly rate to ensure the customer is not overcharged. For example, if a Tesla charges $10 per hour and $50 per day, renting it for 6 hours would cost $60 at the hourly rate. Instead, the daily rate of $50 is applied.
