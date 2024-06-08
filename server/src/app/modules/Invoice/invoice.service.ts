@@ -1,22 +1,18 @@
 
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
+import { calculateTotal } from './invoice.utils';
 
 const calculateInvoiceTotal = async (payload: any) => {
 
-    // if (!payload) {
-    //     throw new AppError(httpStatus.BAD_REQUEST, 'Information is required');
-    // }
-
-    // const { reservationInfo, vehicleInfo, additonalChargesInfo } = payload;
+    if (!payload) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Payload is required');
+    }
 
 
-    // const result = await Course.create(payload);
-    return {
-        total: 1000,
-        discount: 100,
-        payable: 900,
-    };
+    const total = calculateTotal(payload)
+
+    return total;
 };
 
 export const InvoiceServices = {
