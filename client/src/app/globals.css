@@ -16,3 +16,12 @@ body {
   margin: 20px;
   padding: 20px;
 }
+
+/* responsive */
+
+@media (max-width: 768px) {
+  body {
+    margin: 10px;
+    padding: 10px;
+  }
+}

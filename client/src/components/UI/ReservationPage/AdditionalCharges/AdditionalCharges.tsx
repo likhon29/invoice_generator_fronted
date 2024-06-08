@@ -1,24 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { PiCurrencyDollarLight } from "react-icons/pi";
-const AdditionalCharges = () => {
+const AdditionalCharges = ({
+  setAdditionalCharges,
+}: {
+  setAdditionalCharges: any;
+}) => {
   const {
     register,
     formState: { errors },
     watch,
   } = useForm();
 
-  const additionalCharges = {
-    option1: false,
-    option2: false,
-    option3: false,
-  };
-
   const selectedCharges = watch("additionalCharges");
 
-  console.log(selectedCharges);
+  useEffect(() => {
+    setAdditionalCharges(selectedCharges);
+  }, [selectedCharges, setAdditionalCharges]);
 
   return (
     <div className="">

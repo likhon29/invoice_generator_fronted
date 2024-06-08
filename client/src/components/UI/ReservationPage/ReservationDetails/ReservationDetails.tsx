@@ -11,7 +11,11 @@ interface IFormInputs {
   duration: string;
 }
 
-const ReservationDetails = () => {
+const ReservationDetails = ({
+  setReservationDetails,
+}: {
+  setReservationDetails: any;
+}) => {
   const {
     register,
     formState: { errors },
@@ -51,6 +55,9 @@ const ReservationDetails = () => {
 
   // calculation from pickup date and return date as 1 week 3 days
 
+  const [weeks, setWeeks] = useState<number>(0);
+  const [days, setDays] = useState<number>(0);
+  const [hours, setHours] = useState<number>(0);
   useEffect(() => {
     const calculateDuration = () => {
       if (pickupDate && returnDate) {
@@ -58,6 +65,13 @@ const ReservationDetails = () => {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const weeks = Math.floor(diffDays / 7);
         const days = diffDays % 7;
+        setWeeks(weeks);
+        setDays(days);
+
+        // calculate hour as well
+        // const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+        // const hours = diffHours % 24;
+
         return `${weeks} week ${days} days`;
       }
       return "";
@@ -67,6 +81,29 @@ const ReservationDetails = () => {
       setDurationValue(duration);
     }
   }, [pickupDate, returnDate]);
+
+  useEffect(() => {
+    setReservationDetails({
+      reservationId,
+      pickupDate,
+      returnDate,
+      discount,
+      duration: {
+        weeks: weeks,
+        days: days,
+        hours: 0,
+      },
+    });
+  }, [
+    reservationId,
+    pickupDate,
+    returnDate,
+    discount,
+    durationValue,
+    setReservationDetails,
+    weeks,
+    days,
+  ]);
 
   return (
     <div className="">
@@ -164,7 +201,7 @@ const ReservationDetails = () => {
             type="text"
             // placeholder="1 week 1 day"
             readOnly
-            value={durationValue &&  `${durationValue} `}
+            value={durationValue && `${durationValue} `}
             className="border border-gray-300 p-2 rounded"
             {...register("duration")}
           />

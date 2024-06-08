@@ -7,7 +7,7 @@ import fetchData from "@/utils/fetchData";
 import { HiOutlineChevronDown } from "react-icons/hi";
 import { ICar } from "@/types/car";
 import Image from "next/image";
-const VehicleInfo = () => {
+const VehicleInfo = ({ setVehicleInfo }: { setVehicleInfo: any }) => {
   const {
     register,
     formState: { errors },
@@ -46,8 +46,6 @@ const VehicleInfo = () => {
 
   //  unique types of cars
 
-  console.log(cars);
-
   const uniqueCarsType = cars
     .map((car: ICar) => car.type)
     .filter(
@@ -64,6 +62,12 @@ const VehicleInfo = () => {
     );
     setFilterCar(filteredCars);
   }, [cars, selectedCarType]);
+
+  const selectedCar = cars.find((car: ICar) => car.id === watch("vehicle"));
+
+  useEffect(() => {
+    setVehicleInfo(selectedCar);
+  }, [cars, setVehicleInfo, selectedCar]);
 
   return (
     <div className="">
@@ -123,6 +127,7 @@ const VehicleInfo = () => {
                     errors.vehicle ? "border-red-500" : "border-gray-300"
                   } p-2 rounded w-full appearance-none`}
                 >
+                  
                   {filterCar?.length ? (
                     filterCar?.map((car: ICar, index: any) => (
                       <option
@@ -130,21 +135,13 @@ const VehicleInfo = () => {
                         key={index}
                         value={car.id}
                       >
-                        <Image
-                          src={
-                            car?.imageURL || "https://via.placeholder.com/150"
-                          }
-                          width={50}
-                          height={50}
-                          alt={car?.model}
-                        />
-                        <p>
-                          {car.make} {car.model} {car.year}
-                        </p>
+                        {car.make} {car.model} {car.year}
                       </option>
                     ))
                   ) : (
-                    <option value="">Select Vehicle</option>
+                    <option value="" disabled>
+                      Select Vehicle
+                    </option>
                   )}
                 </select>
               )}

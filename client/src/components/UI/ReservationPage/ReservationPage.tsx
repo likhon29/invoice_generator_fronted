@@ -5,10 +5,52 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Invoice from "../Invoice/Invoice";
 import ReservationForm from "./ReservationForm/ReservationForm";
+import ReservationDetails from "./ReservationDetails/ReservationDetails";
+import CustomerInfo from "./CustomerInfo/CustomerInfo";
+import VehicleInfo from "./VehicleInfo/VehicleInfo";
+import AdditionalCharges from "./AdditionalCharges/AdditionalCharges";
 import ChargeSummary from "./ChargeSummary/ChargeSummary";
+import { useForm } from "react-hook-form";
 
 const ReservationPage = () => {
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
+  const [vehicleInfo, setVehicleInfo] = useState({});
+
+  const [reservationDetails, setReservationDetails] = useState({
+    reservation_id: "",
+    pickupDate: Date.now(),
+    returnDate: Date.now(),
+    duration: {
+      weeks: 0,
+      days: 0,
+      hours: 0,
+    },
+    discount: 0,
+  });
+
+  const [additionalCharges, setAdditionalCharges] = useState({
+    collisionDamageWaiver: false,
+    personalAccidentInsurance: false,
+    roadsideAssistance: false,
+  });
+
   const contentRef = React.useRef(null);
   const handleDownloadPdf = async () => {
     setIsDownloading(true);
@@ -34,6 +76,7 @@ const ReservationPage = () => {
       setIsDownloading(false);
     }
   };
+
   return (
     <div className=" min-h-min">
       <div className="flex justify-between items-center lg:my-3">
@@ -47,8 +90,22 @@ const ReservationPage = () => {
         </button>
       </div>
       <div className="grid lg:grid-cols-[7fr,5fr] gap-5 items-start">
-        <ReservationForm />
-        <ChargeSummary />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className=" bg-white  rounded-md"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <ReservationDetails setReservationDetails={setReservationDetails} />
+            <CustomerInfo setCustomerInfo={setCustomerInfo} />
+            <VehicleInfo setVehicleInfo={setVehicleInfo} />
+            <AdditionalCharges setAdditionalCharges={setAdditionalCharges} />
+          </div>
+        </form>
+        <ChargeSummary
+          additionalCharges={additionalCharges}
+          vehicleInfo={vehicleInfo}
+          reservationDetails={reservationDetails}
+        />
       </div>
 
       <div ref={contentRef}>
